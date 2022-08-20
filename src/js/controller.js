@@ -1,4 +1,4 @@
-import * as model from './model.js'; // * means all, here model is named we just given.
+import * as model from './model.js'; 
 import { MODAL_CLOSE_SEC } from '../config.js';
 import recipeView from './Views/recipeView.js';
 import searchView from './Views/searchView.js';
@@ -83,7 +83,7 @@ const controlAddRecipe = async function (newRecipe) {
 
     bookmarksView.render(model.state.bookmarks);
 
-    window.history.pushState(null, '', `#${model.state.recipe.id}`); // 'history' is an api of the browsers, and then on this history object we call 'pushstate' method this will basically allow us to change the url without reloading the page.
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     setTimeout(function () {
       addRecipeView.toggleWindow();
