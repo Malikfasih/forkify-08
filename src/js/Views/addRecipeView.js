@@ -1,4 +1,3 @@
-import icons from 'url:../../img/icons.svg'; // for parcel 2
 import View from './View.js';
 
 class AddRecipeView extends View {
@@ -30,8 +29,8 @@ class AddRecipeView extends View {
   addHandlerUpload(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
-      const dataArr = [...new FormData(this)]; // in this FormData api 'this' means <form>, and 'new FormData(this)' will return a weird object that we cannot use so we spread this obj into an array which will give us all the fields with all the values in it.
-      const data = Object.fromEntries(dataArr); // this 'fromEntries()' method is opts to the 'entries' method available on arrays, this takes an array of entries and converts it into object.
+      const dataArr = [...new FormData(this)];
+      const data = Object.fromEntries(dataArr);
       handler(data);
     });
   }

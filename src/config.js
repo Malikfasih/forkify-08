@@ -1,5 +1,10 @@
-export const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes/';
+import 'dotenv/config';
+
+export const API_URL = process.env.API_URL;
 export const TIMEOUT_SEC = 10;
 export const RES_PER_PAGE = 10;
-export const KEY = '07d8ba10-ae7b-4d69-b0da-280b4fc29e98';
+export const KEY = process.env.KEY;
 export const MODAL_CLOSE_SEC = 2.5;
+
+console.log(process.env.API_URL);
+console.log(process.env.KEY);

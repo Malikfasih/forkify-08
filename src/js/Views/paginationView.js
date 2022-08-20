@@ -1,15 +1,14 @@
-import icons from 'url:../../img/icons.svg'; // for parcel 2
+import icons from 'url:../../img/icons.svg';
 import View from './View.js';
 
 class PaginationView extends View {
   _parentElement = document.querySelector('.pagination');
 
   addHandlerClick(handler) {
-    // using add delegation method
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
-      const goToPage = +btn.dataset.goto; // dataset.'anything we can name by own'
+      const goToPage = +btn.dataset.goto;
       handler(goToPage);
     });
   }
@@ -20,7 +19,6 @@ class PaginationView extends View {
       this._data.results.length / this._data.resultsPerPage
     );
 
-    // Page1 and there are other pages
     if (curPage === 1 && numPages > 1) {
       return `
       <button data-goto="${
@@ -34,7 +32,6 @@ class PaginationView extends View {
       `;
     }
 
-    // Last page
     if (curPage === numPages && numPages > 1) {
       return `
           <button data-goto="${
@@ -48,7 +45,6 @@ class PaginationView extends View {
       `;
     }
 
-    // Other page
     if (curPage < numPages) {
       return `
       <button data-goto="${
@@ -70,8 +66,6 @@ class PaginationView extends View {
          </button>
       `;
     }
-
-    // Page1 and there are no other pages
     return '';
   }
 }

@@ -1,6 +1,4 @@
-import { async } from 'regenerator-runtime';
 import { API_URL, KEY, RES_PER_PAGE } from '../config.js';
-// import { getJSON, sendJSON } from './helpers.js';
 import { AJAX } from './helpers.js';
 
 export const state = {
@@ -25,13 +23,13 @@ const createRecipeObject = function (data) {
     image: recipe.image_url,
     title: recipe.title,
     sourceUrl: recipe.source_url,
-    ...(recipe.key && { key: recipe.key }), // here we did short-circuiting that if 'recipe.key' exists then it will return the second value after && operator.
+    ...(recipe.key && { key: recipe.key }),
   };
 };
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}${id}?key=${KEY}`); // as calling async f into async f, thats why add 'await' to this promise/resolved value
+    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
     if (state.bookmarks.some(bookmark => bookmark.id === id))
@@ -40,7 +38,6 @@ export const loadRecipe = async function (id) {
 
     console.log(state.recipe);
   } catch (err) {
-    // Temp err handling
     console.error(`${err} @@##$$`);
     throw err;
   }
@@ -50,7 +47,6 @@ export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
-    // console.log(data);
     state.search.results = data.data.recipes.map(rec => {
       return {
         id: rec.id,
@@ -60,7 +56,7 @@ export const loadSearchResults = async function (query) {
         ...(rec.key && { key: rec.key }),
       };
     });
-    state.search.page = 1; // reset the page to page 1. so new results always load with page 1.
+    state.search.page = 1;
   } catch (err) {
     console.error(`${err} @@##$$`);
     throw err;
@@ -78,9 +74,8 @@ export const getSearchResultsPage = function (page = state.search.page) {
 export const updateServings = function (newServings) {
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
-    // newQt = oldQt * newServings / oldServings // 2 * 8 / 4 = 4
   });
-  state.recipe.servings = newServings; // updating the newServing value
+  state.recipe.servings = newServings;
 };
 
 const persistBookmarks = function () {
@@ -88,21 +83,17 @@ const persistBookmarks = function () {
 };
 
 export const addBookmark = function (recipe) {
-  // Add bookmark
   state.bookmarks.push(recipe);
 
-  // Mark current recipe as  bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 
   persistBookmarks();
 };
 
 export const deleteBookmark = function (id) {
-  // Delete bookmarks
-  const index = state.bookmarks.findIndex(el => el.id === id); // cur bookmark.id === id
+  const index = state.bookmarks.findIndex(el => el.id === id);
   state.bookmarks.splice(index, 1);
 
-  // Unmark current recipe as NOT a bookmarked
   if (id === state.recipe.id) state.recipe.bookmarked = false;
 
   persistBookmarks();
@@ -117,16 +108,14 @@ init();
 const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
-// clearBookmarks();
+clearBookmarks();
 
 export const uploadRecipe = async function (newRecipe) {
   try {
-    // console.log(Object.entries(newRecipe)); //just to see before developing
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
         const ingArr = ing[1].split(',').map(el => el.trim());
-        // const ingArr = ing[1].replaceAll(' ', '').split(',');
         if (ingArr.length !== 3)
           throw new Error(
             'Wrong ingredient format ! Please use the correct format :)'
@@ -145,7 +134,7 @@ export const uploadRecipe = async function (newRecipe) {
       servings: +newRecipe.servings,
       ingredients,
     };
-    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe); // we stored this coz api will return this data back
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
   } catch (err) {
