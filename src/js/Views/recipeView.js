@@ -1,5 +1,4 @@
-// import icons from '../img/icons.svg'; //for parcel 1
-import icons from 'url:../../img/icons.svg'; // for parcel 2
+import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
 import View from './View.js';
 
@@ -9,19 +8,14 @@ class RecipeView extends View {
   _message = '';
 
   addHandlerRender(handler) {
-    // we write handler coz here at first place publisher dont knows about the subscriber/handler
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
-    // noramlly we do
-    // window.addEventListener('hashchange', controlRecipes);
-    // window.addEventListener('load', controlRecipes);
   }
 
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
-      console.log(btn);
-      // const updateTo = btn.dataset.updateTo; //or clean way
+
       const { updateTo } = btn.dataset;
       if (+updateTo > 0) handler(+updateTo);
     });

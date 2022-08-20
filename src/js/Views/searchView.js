@@ -13,8 +13,8 @@ class SearchView {
 
   addHandlerSearch(handler) {
     this.#parentEl.addEventListener('submit', function (e) {
-      e.preventDefault(); // as we know for submission it is neccessary to prevent the default.
-      handler(); // this means controlSearchRecipes()
+      e.preventDefault();
+      handler();
     });
   }
 }

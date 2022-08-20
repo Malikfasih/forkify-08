@@ -1,4 +1,4 @@
-import icons from 'url:../../img/icons.svg'; // for parcel 2
+import icons from 'url:../../img/icons.svg';
 import View from './View.js';
 
 class PreviewView extends View {

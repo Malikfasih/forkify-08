@@ -1,4 +1,3 @@
-import icons from 'url:../../img/icons.svg'; // for parcel 2
 import previewView from './previewView.js';
 import View from './View.js';
 
